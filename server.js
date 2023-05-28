@@ -9,14 +9,18 @@ let db,
     dbConnectionStr = process.env.DB_STRING,
     dbName = 'todo'
 
-const connect = async () => {
-    await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-    .then(client => {
-        console.log(`Connected to ${dbName} Database`)
-        db = client.db(dbName)
-    })
+    const connect = async () => {
+    try {
+            await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+            .then(client => {
+                console.log(`Connected to ${dbName} Database`)
+                db = client.db(dbName)
+            })
+    } catch (error) {
+        console.log(`this is the error in db connect: ${error.message}`);
+    }
 }
-    
+
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
