@@ -8,12 +8,11 @@ require('dotenv').config()
 let db,
     dbConnectionStr = process.env.DB_STRING,
     dbName = 'todo',
-    client;
+    client = new MongoClient()
 
     const connect = async () => {
         console.log("enter conect function");
         try {
-                client = new MongoClient()
                 console.log(client);
                 const connSuccess = await client.connect(dbConnectionStr, { useUnifiedTopology: true })
                 console.log(connSuccess)
@@ -97,20 +96,13 @@ app.delete('/deleteItem', (request, response) => {
 
 })
 
-// client.connect(err => {
-//     if(err){ console.error(err); return false;}
-//     // connection to mongo is successful, listen for requests
-//     app.listen(process.env.PORT || PORT, () => {
-//         // console.log(`${db} before conn`);
-//         // await connect();
-//         // console.log(`${db} after conn`);
-//         console.log("listening for requests");
-//     })
-// });
-
-connect()
-    .then(() => {
-        app.listen(process.env.PORT || PORT, () => {
-            console.log("listening for requests");
-        })
+client.connect(err => {
+    if(err){ console.error(err); return false;}
+    // connection to mongo is successful, listen for requests
+    app.listen(process.env.PORT || PORT, () => {
+        // console.log(`${db} before conn`);
+        // await connect();
+        // console.log(`${db} after conn`);
+        console.log("listening for requests");
     })
+});
