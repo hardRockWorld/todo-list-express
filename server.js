@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const MongoClient = require('mongodb').MongoClient
+const { MongoClient } = require('mongodb')
 const PORT = 2121
 require('dotenv').config()
 
@@ -12,8 +12,10 @@ let db,
     const connect = async () => {
         console.log("enter conect function");
         try {
-                const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-                console.log(client)
+                const client = new MongoClient()
+                console.log(client);
+                const connSuccess = await client.connect(dbConnectionStr, { useUnifiedTopology: true })
+                console.log(connSuccess)
                 const clientDB = await client.db(dbName)
                 console.log(`Connected to ${dbName} Database`)
         } catch (error) {
@@ -95,6 +97,9 @@ app.delete('/deleteItem', (request, response) => {
 })
 
 app.listen(process.env.PORT || PORT, async () => {
+    console.log(`${db} before conn`);
     await connect();
+    console.log(`${db} after conn`);
+    console.log("after connected success");
     console.log(`Server running on port ${PORT}`)
 })
