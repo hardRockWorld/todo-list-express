@@ -12,11 +12,9 @@ let db,
     const connect = async () => {
     try {
             const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-            .then(async client => {
-                console.log(`Connected to ${dbName} Database`)
-                db = await client.db(dbName);
-                console.log(db);
-            })
+            console.log(client)
+            const clientDB = await client.db(dbName)
+            console.log(`Connected to ${dbName} Database`)
     } catch (error) {
         console.log(`this is the error in db connect: ${error.message}`);
     }
