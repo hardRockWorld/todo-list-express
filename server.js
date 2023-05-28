@@ -10,14 +10,15 @@ let db,
     dbName = 'todo'
 
     const connect = async () => {
-    try {
-            const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-            console.log(client)
-            const clientDB = await client.db(dbName)
-            console.log(`Connected to ${dbName} Database`)
-    } catch (error) {
-        console.log(`this is the error in db connect: ${error.message}`);
-    }
+        console.log("enter conect function");
+        try {
+                const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+                console.log(client)
+                const clientDB = await client.db(dbName)
+                console.log(`Connected to ${dbName} Database`)
+        } catch (error) {
+            console.log(`this is the error in db connect: ${error.message}`);
+        }
 }
 
 app.set('view engine', 'ejs')
@@ -93,7 +94,7 @@ app.delete('/deleteItem', (request, response) => {
 
 })
 
-app.listen(process.env.PORT || PORT, async ()=>{
+app.listen(process.env.PORT || PORT, async () => {
     await connect();
     console.log(`Server running on port ${PORT}`)
 })
