@@ -11,10 +11,10 @@ let db,
 
     const connect = async () => {
     try {
-            await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-            .then(client => {
+            const client = await MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+            .then(async client => {
                 console.log(`Connected to ${dbName} Database`)
-                db = client.db(dbName)
+                db = await client.db(dbName);
                 console.log(db);
             })
     } catch (error) {
