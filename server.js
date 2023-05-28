@@ -15,6 +15,7 @@ let db,
             .then(client => {
                 console.log(`Connected to ${dbName} Database`)
                 db = client.db(dbName)
+                console.log(db);
             })
     } catch (error) {
         console.log(`this is the error in db connect: ${error.message}`);
